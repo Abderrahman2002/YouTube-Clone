@@ -1,12 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Home, Compass, Clock, ThumbsUp, PlaySquare, ListVideo, History, Film, Gamepad, Newspaper, Trophy, Music2 } from 'lucide-react';
 import { playlists } from '../data/videos';
 import { ThemeContext } from '../App';
 import { Link } from 'react-router-dom';
 
-export function Sidebar({ isOpen, onPlaylistClick, onViewChange, currentView }) {
+export function Sidebar({ isOpen, onPlaylistClick, currentPath }) {
   const { isDarkMode } = useContext(ThemeContext);
+  const [currentView, setCurrentView] = useState('');
+
+  const onViewChange = (view) => {
+    setCurrentView(view);
+  };
 
   const handleViewClick = (view) => {
     onViewChange(view);
@@ -96,11 +101,14 @@ export function Sidebar({ isOpen, onPlaylistClick, onViewChange, currentView }) 
             <div className="mb-4">
               <h3 className="px-3 py-2 text-sm font-medium">Playlists</h3>
               {playlists.map(playlist => (
-                <Link 
+                <button 
                   key={playlist.id}
-                  to={`/playlist/${playlist.id}`}
                   onClick={() => onPlaylistClick(playlist)}
-                  className={`w-full flex items-center gap-4 px-3 py-2 ${currentView === 'playlist' ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') : ''} hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
+                  className={`w-full flex items-center gap-4 px-3 py-2 ${
+                    currentPath === `/playlist/${playlist.id}` 
+                      ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') 
+                      : ''
+                  } hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
                 >
                   <div className="w-6 h-6 rounded overflow-hidden">
                     <img 
@@ -110,7 +118,7 @@ export function Sidebar({ isOpen, onPlaylistClick, onViewChange, currentView }) 
                     />
                   </div>
                   <span>{playlist.name}</span>
-                </Link>
+                </button>
               ))}
             </div>
           </>
@@ -123,6 +131,5 @@ export function Sidebar({ isOpen, onPlaylistClick, onViewChange, currentView }) 
 Sidebar.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onPlaylistClick: PropTypes.func.isRequired,
-  onViewChange: PropTypes.func.isRequired,
-  currentView: PropTypes.string.isRequired,
+  currentPath: PropTypes.string.isRequired,
 };

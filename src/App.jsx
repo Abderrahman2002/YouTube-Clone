@@ -15,6 +15,7 @@ function AppContent() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,6 +25,7 @@ function AppContent() {
   };
 
   const handlePlaylistClick = (playlist) => {
+    setCurrentPlaylist(playlist);
     navigate(`/playlist/${playlist.id}`);
   };
 
@@ -45,8 +47,18 @@ function AppContent() {
               <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} />
               <Route 
                 path="/playlist/:playlistId" 
-                element={<PlaylistView isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} 
+                element={
+                  <PlaylistView 
+                    playlist={currentPlaylist} 
+                    isSidebarOpen={isSidebarOpen} 
+                    onVideoClick={handleVideoClick} 
+                  />
+                } 
               />
+              {/* <Header 
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+        /> */}
               <Route 
                 path="/watch/:videoId" 
                 element={

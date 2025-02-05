@@ -71,6 +71,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange }) {
   };
 
   return (
+  
     <div className={`fixed inset-0 ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'} z-50 overflow-y-auto`}>
       <div className="container mx-auto px-4 py-4">
         <button 
@@ -79,7 +80,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange }) {
         >
           ✕
         </button>
-        
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main Content */}
           <div className="flex-1">
