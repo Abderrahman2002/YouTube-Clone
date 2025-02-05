@@ -1,83 +1,106 @@
+import { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { Home, Compass, Clock, ThumbsUp, PlaySquare, ListVideo, History, Film, Gamepad, Newspaper, Trophy, Music2 } from 'lucide-react';
 import { playlists } from '../data/videos';
-import PropTypes from 'prop-types';
+import { ThemeContext } from '../App';
+import { Link } from 'react-router-dom';
 
-export function Sidebar({ isOpen }) {
+export function Sidebar({ isOpen, onPlaylistClick, onViewChange, currentView }) {
+  const { isDarkMode } = useContext(ThemeContext);
+
+  const handleViewClick = (view) => {
+    onViewChange(view);
+  };
+
   return (
-    <aside className={`fixed left-0 top-14 h-full bg-[#0f0f0f] transition-all overflow-y-auto ${isOpen ? 'w-60' : 'w-20'}`}>
+    <aside className={`fixed left-0 top-14 h-full ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'} transition-all overflow-y-auto ${isOpen ? 'w-60' : 'w-20'}`}>
       <div className="p-2">
         <div className="mb-4">
-          <button className="w-full flex items-center gap-4 px-3 py-2 bg-[#272727] rounded-lg">
+          <Link 
+            to="/"
+            onClick={() => handleViewClick('home')}
+            className={`w-full flex items-center gap-4 px-3 py-2 ${currentView === 'home' ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') : ''} rounded-lg`}
+          >
             <Home className="w-6 h-6" />
             {isOpen && <span>Home</span>}
-          </button>
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          </Link>
+          <Link 
+            to="/explore"
+            onClick={() => handleViewClick('explore')}
+            className={`w-full flex items-center gap-4 px-3 py-2 ${currentView === 'explore' ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') : ''} hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
+          >
             <Compass className="w-6 h-6" />
             {isOpen && <span>Explore</span>}
-          </button>
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          </Link>
+          <Link 
+            to="/subscriptions"
+            onClick={() => handleViewClick('subscriptions')}
+            className={`w-full flex items-center gap-4 px-3 py-2 ${currentView === 'subscriptions' ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') : ''} hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
+          >
             <ListVideo className="w-6 h-6" />
             {isOpen && <span>Subscriptions</span>}
-          </button>
+          </Link>
         </div>
 
-        {isOpen && <hr className="border-[#272727] my-2" />}
+        {isOpen && <hr className={`border-${isDarkMode ? '[#272727]' : 'gray-200'} my-2`} />}
 
         <div className="mb-4">
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          <Link to="/library" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
             <PlaySquare className="w-6 h-6" />
             {isOpen && <span>Library</span>}
-          </button>
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          </Link>
+          <Link to="/history" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
             <History className="w-6 h-6" />
             {isOpen && <span>History</span>}
-          </button>
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          </Link>
+          <Link to="/watch-later" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
             <Clock className="w-6 h-6" />
             {isOpen && <span>Watch Later</span>}
-          </button>
-          <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+          </Link>
+          <Link to="/liked-videos" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
             <ThumbsUp className="w-6 h-6" />
             {isOpen && <span>Liked Videos</span>}
-          </button>
+          </Link>
         </div>
 
         {isOpen && (
           <>
-            <hr className="border-[#272727] my-2" />
+            <hr className={`border-${isDarkMode ? '[#272727]' : 'gray-200'} my-2`} />
             
             <div className="mb-4">
               <h3 className="px-3 py-2 text-sm font-medium">Explore</h3>
-              <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+              <Link to="/movies" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
                 <Film className="w-6 h-6" />
                 <span>Movies</span>
-              </button>
-              <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+              </Link>
+              <Link to="/gaming" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
                 <Gamepad className="w-6 h-6" />
                 <span>Gaming</span>
-              </button>
-              <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+              </Link>
+              <Link to="/news" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
                 <Newspaper className="w-6 h-6" />
                 <span>News</span>
-              </button>
-              <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+              </Link>
+              <Link to="/sports" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
                 <Trophy className="w-6 h-6" />
                 <span>Sports</span>
-              </button>
-              <button className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg">
+              </Link>
+              <Link to="/music" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
                 <Music2 className="w-6 h-6" />
                 <span>Music</span>
-              </button>
+              </Link>
             </div>
 
-            <hr className="border-[#272727] my-2" />
+            <hr className={`border-${isDarkMode ? '[#272727]' : 'gray-200'} my-2`} />
 
             <div className="mb-4">
               <h3 className="px-3 py-2 text-sm font-medium">Playlists</h3>
               {playlists.map(playlist => (
-                <button 
+                <Link 
                   key={playlist.id}
-                  className="w-full flex items-center gap-4 px-3 py-2 hover:bg-[#272727] rounded-lg"
+                  to={`/playlist/${playlist.id}`}
+                  onClick={() => onPlaylistClick(playlist)}
+                  className={`w-full flex items-center gap-4 px-3 py-2 ${currentView === 'playlist' ? (isDarkMode ? 'bg-[#272727]' : 'bg-gray-100') : ''} hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
                 >
                   <div className="w-6 h-6 rounded overflow-hidden">
                     <img 
@@ -87,7 +110,7 @@ export function Sidebar({ isOpen }) {
                     />
                   </div>
                   <span>{playlist.name}</span>
-                </button>
+                </Link>
               ))}
             </div>
           </>
@@ -99,4 +122,7 @@ export function Sidebar({ isOpen }) {
 
 Sidebar.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-}; 
+  onPlaylistClick: PropTypes.func.isRequired,
+  onViewChange: PropTypes.func.isRequired,
+  currentView: PropTypes.string.isRequired,
+};
