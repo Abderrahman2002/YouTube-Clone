@@ -11,7 +11,11 @@ export const videos = [
     description: "Complete guide to React development in 2024. Learn hooks, components, and best practices.",
     videoUrl: "https://youtu.be/CgkZ7MvWUAA?si=xhbLrW4EDhQ0wbmW",
     likes: 12300,
-    dislikes: 150
+    dislikes: 150,
+    comments: [
+      { id: 1, user: "John Doe", text: "Great tutorial, very helpful!" },
+      { id: 2, user: "Jane Smith", text: "Thanks for the detailed explanation." }
+    ]
   },
   {
     id: 2,
@@ -25,7 +29,11 @@ export const videos = [
     description: "Essential web development tips and tricks for modern developers.",
     videoUrl: "https://youtu.be/ShSNbXkxQS8?si=tpATXRU6aU4tiUx6",
     likes: 8500,
-    dislikes: 120
+    dislikes: 120,
+    comments: [
+      { id: 1, user: "Alice Johnson", text: "Loved the tips, very useful." },
+      { id: 2, user: "Bob Brown", text: "Can you make a video on CSS?" }
+    ]
   },
   {
     id: 3,
@@ -39,7 +47,11 @@ export const videos = [
     description: "Master modern JavaScript features and techniques.",
     videoUrl: "https://youtu.be/moRqo158NGc?si=DU0ggssmSh-8iSCD",
     likes: 20000,
-    dislikes: 300
+    dislikes: 300,
+    comments: [
+      { id: 1, user: "Charlie Davis", text: "JavaScript is awesome!" },
+      { id: 2, user: "Dana Lee", text: "Very informative, thanks!" }
+    ]
   },
   {
     id: 4,
@@ -53,7 +65,11 @@ export const videos = [
     description: "Step-by-step guide to building a full-stack application.",
     videoUrl: "https://youtu.be/zut46AB8DHQ?si=AS1wMBtl6yePZFh8",
     likes: 15000,
-    dislikes: 200
+    dislikes: 200,
+    comments: [
+      { id: 1, user: "Eve White", text: "Full-stack development is the future." },
+      { id: 2, user: "Frank Green", text: "Great step-by-step guide." }
+    ]
   },
   {
     id: 5,
@@ -67,7 +83,11 @@ export const videos = [
     description: "Deep dive into advanced TypeScript concepts and patterns.",
     videoUrl: "https://youtu.be/EcCTIExsqmI?si=3QzU3VfKOktlwOsI",
     likes: 7500,
-    dislikes: 100
+    dislikes: 100,
+    comments: [
+      { id: 1, user: "Grace Black", text: "TypeScript is a game changer." },
+      { id: 2, user: "Hank Blue", text: "Thanks for the advanced concepts." }
+    ]
   },
   {
     id: 6,
@@ -81,7 +101,11 @@ export const videos = [
     description: "Master CSS Grid layout with practical examples.",
     videoUrl: "https://youtu.be/HGTJBPNC-Gw?si=v40q-Me9FDlzNjHg",
     likes: 9500,
-    dislikes: 150
+    dislikes: 150,
+    comments: [
+      { id: 1, user: "Ivy Red", text: "CSS Grid is so powerful!" },
+      { id: 2, user: "Jack Yellow", text: "Loved the practical examples." }
+    ]
   }
 ];
 

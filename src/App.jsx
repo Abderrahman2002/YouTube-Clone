@@ -1,6 +1,6 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { Header } from './components/Header';
+import Header from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { VideoGrid } from './components/VideoGrid';
 import { VideoPlayer } from './components/VideoPlayer';
@@ -12,12 +12,27 @@ export const ThemeContext = createContext({
 });
 
 function AppContent() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open by default
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSidebarOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
@@ -55,10 +70,6 @@ function AppContent() {
                   />
                 } 
               />
-              {/* <Header 
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        /> */}
               <Route 
                 path="/watch/:videoId" 
                 element={
@@ -72,6 +83,7 @@ function AppContent() {
                       setSelectedVideo(video);
                       navigate(`/watch/${video.id}`);
                     }}
+                    onPlaylistClick={handlePlaylistClick} // Pass this prop
                   />
                 } 
               />

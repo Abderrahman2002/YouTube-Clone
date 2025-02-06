@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { Menu, Search, Bell, User, PlaySquare, Sun, Moon } from 'lucide-react';
+import { Menu, Search, Bell, User, Sun, Moon, Youtube } from 'lucide-react'; // Import Youtube icon
 import { ThemeContext } from '../App';
 import PropTypes from 'prop-types';
 
-export function Header({ isSidebarOpen, setIsSidebarOpen }) {
+const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
 
   return (
@@ -13,8 +13,8 @@ export function Header({ isSidebarOpen, setIsSidebarOpen }) {
           <Menu className="w-6 h-6" />
         </button>
         <div className="flex items-center gap-1">
-          <PlaySquare className="w-8 h-8 text-red-600" />
-          <span className="text-xl font-semibold">YouTube</span>
+          <img src="./YTB.png" alt="YouTube" className="w-8 h-8" /> {/* Adjust width and height */}
+            <span className="text-xl font-semibold">YouTube</span>
         </div>
       </div>
       
@@ -47,8 +47,11 @@ export function Header({ isSidebarOpen, setIsSidebarOpen }) {
       </div>
     </header>
   );
-}
+};
+
 Header.propTypes = {
   isSidebarOpen: PropTypes.bool.isRequired,
   setIsSidebarOpen: PropTypes.func.isRequired,
 };
+
+export default Header;
