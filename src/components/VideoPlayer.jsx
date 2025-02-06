@@ -92,7 +92,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
   return (
     <div className={`fixed inset-0 ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'} z-50 overflow-y-auto`}>
       <Header isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-      <div className="flex">
+      <div className="flex mt-14"> {/* Add margin-top to avoid overlap */}
         <Sidebar isOpen={isSidebarOpen} onPlaylistClick={onPlaylistClick} currentPath="" />
         <div className="container mx-auto px-4 py-4">
           <button 

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Menu, Search, Bell, User, Sun, Moon,  } from 'lucide-react'; // Import Youtube icon
+import { Menu, Search, Bell, User, Sun, Moon } from 'lucide-react';
 import { ThemeContext } from '../App';
 import PropTypes from 'prop-types';
 
@@ -13,8 +13,8 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
           <Menu className="w-6 h-6" />
         </button>
         <div className="flex items-center gap-1">
-          <img src="./ytb.png" alt="YouTube" className="w-8 h-8" /> {/* Adjust width and height */}
-            <span className="text-xl font-semibold">YouTube</span>
+          <img src="/ytb.png" alt="YouTube" className="w-8 h-8" /> {/* Adjust width and height */}
+          <span className="text-xl font-semibold">YouTube</span>
         </div>
       </div>
       
