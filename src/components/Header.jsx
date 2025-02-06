@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Menu, Search, Bell, User, Sun, Moon, Youtube } from 'lucide-react'; // Import Youtube icon
+import { Menu, Search, Bell, User, Sun, Moon,  } from 'lucide-react'; // Import Youtube icon
 import { ThemeContext } from '../App';
 import PropTypes from 'prop-types';
 
