@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { useParams } from 'react-router-dom'; // <-- New import
 import PropTypes from 'prop-types';
 import { ThemeContext } from '../App';
 import { ThumbsUp, ThumbsDown, Share2, Save, MoreVertical } from 'lucide-react';
@@ -25,6 +26,7 @@ VideoPlayer.propTypes = {
 };
 
 export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPlaylistClick }) {
+  const { videoId } = useParams(); // retrieve videoId from route
   const { isDarkMode } = useContext(ThemeContext);
   const [video, setVideo] = useState(initialVideo);
   const [isLiked, setIsLiked] = useState(false);
@@ -33,6 +35,17 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
   const [likes, setLikes] = useState(video.likes);
   const [dislikes, setDislikes] = useState(video.dislikes);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar closed by default
+
+  useEffect(() => {
+    // If no video provided but videoId exists, load from videos array.
+    if (!video && videoId) {
+      const found = videos.find(v => v.id.toString() === videoId);
+      if (found) {
+        setVideo(found);
+        // Optionally update likes, dislikes etc.
+      }
+    }
+  }, [video, videoId]);
 
   useEffect(() => {
     const handleResize = () => {

@@ -5,6 +5,8 @@ import { Sidebar } from './components/Sidebar';
 import { VideoGrid } from './components/VideoGrid';
 import { VideoPlayer } from './components/VideoPlayer';
 import { PlaylistView } from './components/PlaylistView';
+import { VideoForm } from './components/VideoForm';
+import { videos as initialVideos } from './data/videos';
 
 export const ThemeContext = createContext({
   isDarkMode: true,
@@ -12,7 +14,8 @@ export const ThemeContext = createContext({
 });
 
 function AppContent() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open by default
+  const [videos, setVideos] = useState(initialVideos); // make videos editable
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
@@ -25,18 +28,27 @@ function AppContent() {
         setIsSidebarOpen(false);
       }
     };
-
     window.addEventListener('resize', handleResize);
     handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
     navigate(`/watch/${video.id}`);
+  };
+
+  // Callback for VideoForm save (create or update)
+  const handleSaveVideo = (videoData) => {
+    setVideos(prev => {
+      const exists = prev.find(v => v.id === videoData.id);
+      if (exists) {
+        return prev.map(v => (v.id === videoData.id ? videoData : v));
+      } else {
+        // Assign a simple id if new video
+        return [...prev, { ...videoData, id: (prev.length + 1).toString() }];
+      }
+    });
   };
 
   const handlePlaylistClick = (playlist) => {
@@ -59,7 +71,7 @@ function AppContent() {
           />
           <div className="w-full">
             <Routes>
-              <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} />
+              <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} videos={videos} />} />
               <Route 
                 path="/playlist/:playlistId" 
                 element={
@@ -83,9 +95,17 @@ function AppContent() {
                       setSelectedVideo(video);
                       navigate(`/watch/${video.id}`);
                     }}
-                    onPlaylistClick={handlePlaylistClick} // Pass this prop
+                    onPlaylistClick={handlePlaylistClick}
                   />
                 } 
+              />
+              <Route 
+                path="/admin/videos" 
+                element={<VideoForm videos={videos} onSave={handleSaveVideo} />} 
+              />
+              <Route 
+                path="/admin/videos/:videoId" 
+                element={<VideoForm videos={videos} onSave={handleSaveVideo} />} 
               />
             </Routes>
           </div>

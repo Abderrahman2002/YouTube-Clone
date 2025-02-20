@@ -1,15 +1,15 @@
 export const videos = [
   {
     id: 1,
-    thumbnail: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=500&q=80",
-    title: "Learning React in 2024 - Complete Guide",
-    channel: "Code Masters",
-    channelAvatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80",
+    thumbnail: "https://img.youtube.com/vi/GkJ0mmj5xuU/maxresdefault.jpg",
+    title: "Soutenance de Projet de Synthèse Développement Digital",
+    channel: "SAID GAHI",
+    channelAvatar: "/profile.png",
     views: "120K views",
     timestamp: "2 days ago",
     duration: "15:30",
     description: "Complete guide to React development in 2024. Learn hooks, components, and best practices.",
-    videoUrl: "https://youtu.be/CgkZ7MvWUAA?si=xhbLrW4EDhQ0wbmW",
+    videoUrl: "hhttps://img.youtube.com/vi/GkJ0mmj5xuU/maxresdefault.jpg",
     likes: 12300,
     dislikes: 150,
     comments: [
@@ -19,15 +19,15 @@ export const videos = [
   },
   {
     id: 2,
-    thumbnail: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&q=80",
-    title: "Web Development Tips & Tricks",
-    channel: "Tech Insights",
-    channelAvatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100&q=80",
+    thumbnail: "https://img.youtube.com/vi/zjCszQLo9QI/maxresdefault.jpg",
+    title: "Découvrir Docker",
+    channel: "SAID GAHI",
+    channelAvatar: "/profile.png",
     views: "85K views",
     timestamp: "5 days ago",
     duration: "12:45",
     description: "Essential web development tips and tricks for modern developers.",
-    videoUrl: "https://youtu.be/ShSNbXkxQS8?si=tpATXRU6aU4tiUx6",
+    videoUrl: "https://youtu.be/zjCszQLo9QI?si=QntNBn5tj_fndbhD",
     likes: 8500,
     dislikes: 120,
     comments: [
@@ -55,15 +55,15 @@ export const videos = [
   },
   {
     id: 4,
-    thumbnail: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&q=80",
-    title: "Building a Full-Stack App",
-    channel: "Dev Journey",
-    channelAvatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=100&q=80",
+    thumbnail: "https://img.youtube.com/vi/e-K4zgvBLQI/maxresdefault.jpg",
+    title: "Presentation ",
+    channel: "SAID GAHI",
+    channelAvatar: "/profile.png",
     views: "150K views",
     timestamp: "3 days ago",
     duration: "25:00",
     description: "Step-by-step guide to building a full-stack application.",
-    videoUrl: "https://youtu.be/zut46AB8DHQ?si=AS1wMBtl6yePZFh8",
+    videoUrl: "https://youtu.be/4x_Nwq1NZn0?si=IFilsFiXNk8l1TY0",
     likes: 15000,
     dislikes: 200,
     comments: [
@@ -73,10 +73,10 @@ export const videos = [
   },
   {
     id: 5,
-    thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500&q=80",
-    title: "TypeScript Advanced Concepts",
-    channel: "Code Masters",
-    channelAvatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80",
+    thumbnail: "https://img.youtube.com/vi/IR4JFqEzwqw/0.jpg",
+    title: "Cycle de préparation WorldSkills Lyon 2024",
+    channel: "SAID GAHI",
+    channelAvatar: "/profile.png",
     views: "75K views",
     timestamp: "1 day ago",
     duration: "18:20",
@@ -106,6 +106,23 @@ export const videos = [
       { id: 1, user: "Ivy Red", text: "CSS Grid is so powerful!" },
       { id: 2, user: "Jack Yellow", text: "Loved the practical examples." }
     ]
+  },{
+    id: 6,
+    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
+    title: "CSS Grid Masterclass",
+    channel: "Web Design Pro",
+    channelAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+    views: "95K views",
+    timestamp: "4 days ago",
+    duration: "22:15",
+    description: "Master CSS Grid layout with practical examples.",
+    videoUrl: "https://youtu.be/HGTJBPNC-Gw?si=v40q-Me9FDlzNjHg",
+    likes: 9500,
+    dislikes: 150,
+    comments: [
+      { id: 1, user: "Ivy Red", text: "CSS Grid is so powerful!" },
+      { id: 2, user: "Jack Yellow", text: "Loved the practical examples." }
+    ]
   }
 ];
 
@@ -113,15 +130,15 @@ export const videos = [
 export const playlists = [
   {
     id: 1,
-    name: "React Essentials",
+    name: "Web Development",
     videos: [videos[0], videos[4]],
-    thumbnail: videos[0].thumbnail,
+    thumbnail: videos[1].thumbnail,
     videoCount: 2,
     description: "Essential React tutorials for modern web development"
   },
   {
     id: 2,
-    name: "Web Development",
+    name: "Cloud Computing",
     videos: [videos[1], videos[2], videos[5]],
     thumbnail: videos[1].thumbnail,
     videoCount: 3,
@@ -130,7 +147,7 @@ export const playlists = [
   {
     id: 3,
     name: "Programming Tips",
-    videos: [videos[2], videos[3], videos[4]],
+    videos: [videos[2], videos[2], videos[6]],
     thumbnail: videos[2].thumbnail,
     videoCount: 3,
     description: "Helpful programming tips and best practices"
