@@ -1,10 +1,11 @@
-import  { useContext } from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ThemeContext } from '../App';
 import { VideoCard } from './VideoCard';
 
 export function PlaylistView({ playlist, isSidebarOpen, onVideoClick }) {
   const { isDarkMode } = useContext(ThemeContext);
+  if (!playlist) return null; // Render nothing if no playlist is provided.
 
   return (
     <main className={`flex-1 p-6 ${isSidebarOpen ? 'ml-60' : 'ml-20'}`}>
@@ -42,11 +43,13 @@ PlaylistView.propTypes = {
     thumbnail: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     videoCount: PropTypes.number.isRequired,
-    videos: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      // Add other video properties here if needed
-    })).isRequired,
-  }).isRequired,
+    videos: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        // Add other video properties here if needed
+      })
+    ).isRequired,
+  }),
   isSidebarOpen: PropTypes.bool.isRequired,
   onVideoClick: PropTypes.func.isRequired,
 };

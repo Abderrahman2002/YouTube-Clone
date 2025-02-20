@@ -1,11 +1,12 @@
-import  { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { VideoCard } from './VideoCard';
-import { videos } from '../data/videos';
 import { ThemeContext } from '../App';
 
 export function VideoGrid({ isSidebarOpen, onVideoClick }) {
   const { isDarkMode } = useContext(ThemeContext);
+  const videos = useSelector(state => state.videos);
 
   return (
     <main className={`flex-1 p-6 ${isSidebarOpen ? 'ml-60' : 'ml-20'} ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'}`}>

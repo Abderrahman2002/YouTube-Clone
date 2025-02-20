@@ -7,6 +7,8 @@ import { VideoPlayer } from './components/VideoPlayer';
 import { PlaylistView } from './components/PlaylistView';
 import { VideoForm } from './components/VideoForm';
 import { videos as initialVideos } from './data/videos';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 export const ThemeContext = createContext({
   isDarkMode: true,
@@ -70,8 +72,9 @@ function AppContent() {
             currentPath={location.pathname}
           />
           <div className="w-full">
+            <div className="hidden">{videos.length} videos loaded</div> {/* Use videos state */}
             <Routes>
-              <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} videos={videos} />} />
+              <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} />
               <Route 
                 path="/playlist/:playlistId" 
                 element={
@@ -101,11 +104,11 @@ function AppContent() {
               />
               <Route 
                 path="/admin/videos" 
-                element={<VideoForm videos={videos} onSave={handleSaveVideo} />} 
+                element={<VideoForm onSave={handleSaveVideo} />} 
               />
               <Route 
                 path="/admin/videos/:videoId" 
-                element={<VideoForm videos={videos} onSave={handleSaveVideo} />} 
+                element={<VideoForm onSave={handleSaveVideo} />} 
               />
             </Routes>
           </div>
@@ -117,9 +120,11 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

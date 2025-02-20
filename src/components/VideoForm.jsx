@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addVideo, updateVideo } from '../store/videoSlice';
 
 // This component handles both creation and update of a video.
-export function VideoForm({ videos, onSave }) {
+export function VideoForm() {
   const { videoId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const videos = useSelector(state => state.videos);
   const [form, setForm] = useState({
     id: '',
     title: '',
@@ -20,10 +24,10 @@ export function VideoForm({ videos, onSave }) {
     comments: []
   });
 
-  // If videoId exists, load video data from videos array.
+  // If videoId exists, load video data from Redux state.
   useEffect(() => {
     if (videoId) {
-      const found = videos.find(v => v.id === videoId);
+      const found = videos.find(v => v.id.toString() === videoId);
       if (found) setForm(found);
     }
   }, [videoId, videos]);
@@ -34,7 +38,11 @@ export function VideoForm({ videos, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(form);
+    if (videoId) {
+      dispatch(updateVideo(form));
+    } else {
+      dispatch(addVideo(form));
+    }
     navigate("/");
   };
 

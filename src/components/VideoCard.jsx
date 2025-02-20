@@ -20,7 +20,7 @@ export function VideoCard({ video, onClick }) {
       <div className="mt-3 flex gap-3">
         <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0">
           <img
-            src={video.channelAvatar}
+            src={video.channelAvatar === "profile.png" ? "/profile.png" : video.channelAvatar}
             alt={video.channel}
             className="w-full h-full object-cover"
           />

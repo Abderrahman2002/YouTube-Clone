@@ -4,7 +4,7 @@ export const videos = [
     thumbnail: "https://img.youtube.com/vi/GkJ0mmj5xuU/maxresdefault.jpg",
     title: "Soutenance de Projet de Synthèse Développement Digital",
     channel: "SAID GAHI",
-    channelAvatar: "/profile.png",
+    channelAvatar: "profile.png",
     views: "120K views",
     timestamp: "2 days ago",
     duration: "15:30",
@@ -76,7 +76,7 @@ export const videos = [
     thumbnail: "https://img.youtube.com/vi/IR4JFqEzwqw/0.jpg",
     title: "Cycle de préparation WorldSkills Lyon 2024",
     channel: "SAID GAHI",
-    channelAvatar: "/profile.png",
+    channelAvatar: "./profile.png",
     views: "75K views",
     timestamp: "1 day ago",
     duration: "18:20",
@@ -106,8 +106,9 @@ export const videos = [
       { id: 1, user: "Ivy Red", text: "CSS Grid is so powerful!" },
       { id: 2, user: "Jack Yellow", text: "Loved the practical examples." }
     ]
-  },{
-    id: 6,
+  },
+  {
+    id: 7,
     thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
     title: "CSS Grid Masterclass",
     channel: "Web Design Pro",

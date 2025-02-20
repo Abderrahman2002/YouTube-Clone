@@ -9,7 +9,7 @@ import { Sidebar } from '../components/Sidebar'; // Adjust the path as necessary
 
 VideoPlayer.propTypes = {
   video: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     videoUrl: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     channelAvatar: PropTypes.string.isRequired,
@@ -19,7 +19,7 @@ VideoPlayer.propTypes = {
     views: PropTypes.string.isRequired,
     timestamp: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   onClose: PropTypes.func.isRequired,
   onVideoChange: PropTypes.func.isRequired,
   onPlaylistClick: PropTypes.func.isRequired, // Add this prop
@@ -32,8 +32,8 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const [likes, setLikes] = useState(video.likes);
-  const [dislikes, setDislikes] = useState(video.dislikes);
+  const [likes, setLikes] = useState(initialVideo && initialVideo.likes ? initialVideo.likes : 0);
+  const [dislikes, setDislikes] = useState(initialVideo && initialVideo.dislikes ? initialVideo.dislikes : 0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar closed by default
 
   useEffect(() => {
@@ -43,6 +43,8 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
       if (found) {
         setVideo(found);
         // Optionally update likes, dislikes etc.
+        setLikes(found.likes);
+        setDislikes(found.dislikes);
       }
     }
   }, [video, videoId]);
@@ -61,6 +63,15 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Instead of returning null, display a not-found message.
+  if (!video) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-xl text-gray-500">Video not found.</p>
+      </div>
+    );
+  }
 
   const relatedVideos = videos.filter(v => v.id !== video.id).slice(0, 5);
 
@@ -135,12 +146,12 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
               {/* Video Info */}
               <div className="mt-4">
                 <h1 className="text-xl md:text-2xl font-bold">{video.title}</h1>
-                {/* Channel Info and Action Buttons */}
+                 Channel Info and Action Buttons 
                 <div className={`flex flex-col md:flex-row md:items-center justify-between mt-4 pb-4 border-b ${isDarkMode ? 'border-[#272727]' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
                       <img 
-                        src={video.channelAvatar} 
+                        src={ video.channelAvatar === "profile.png" ? "/profile.png" : video.channelAvatar }
                         alt={video.channel}
                         className="w-full h-full object-cover"
                       />
@@ -204,12 +215,16 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                 {/* Comments Section */}
                 <div className={`mt-4 p-3 ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-xl`}>
                   <h2 className="text-lg font-semibold mb-2">Comments</h2>
-                  {video.comments.map(comment => (
-                    <div key={comment.id} className={`mb-2 p-2 ${isDarkMode ? 'bg-[#1f1f1f]' : 'bg-white'} rounded-lg`}>
-                      <p className="font-medium">{comment.user}</p>
-                      <p className="text-sm">{comment.text}</p>
-                    </div>
-                  ))}
+                  {video.comments && video.comments.length > 0 ? (
+                    video.comments.map((comment, index) => (
+                      <div key={index} className={`mb-2 p-2 ${isDarkMode ? 'bg-[#1f1f1f]' : 'bg-white'} rounded-lg`}>
+                        <p className="font-medium">{comment.user || 'Anonymous'}</p>
+                        <p className="text-sm">{comment.text || ''}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">No comments yet.</p>
+                  )}
                 </div>
               </div>
             </div>
