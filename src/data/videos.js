@@ -9,7 +9,7 @@ export const videos = [
     timestamp: "2 days ago",
     duration: "15:30",
     description: "Complete guide to React development in 2024. Learn hooks, components, and best practices.",
-    videoUrl: "hhttps://img.youtube.com/vi/GkJ0mmj5xuU/maxresdefault.jpg",
+    videoUrl: "https://youtu.be/GkJ0mmj5xuU?si=JgyeQcwyfQnZvNVO",
     likes: 12300,
     dislikes: 150,
     comments: [
@@ -76,12 +76,12 @@ export const videos = [
     thumbnail: "https://img.youtube.com/vi/IR4JFqEzwqw/0.jpg",
     title: "Cycle de préparation WorldSkills Lyon 2024",
     channel: "SAID GAHI",
-    channelAvatar: "./profile.png",
+    channelAvatar: "/profile.png",
     views: "75K views",
     timestamp: "1 day ago",
     duration: "18:20",
     description: "Deep dive into advanced TypeScript concepts and patterns.",
-    videoUrl: "https://youtu.be/EcCTIExsqmI?si=3QzU3VfKOktlwOsI",
+    videoUrl: "https://youtu.be/IR4JFqEzwqw?si=XhnKQgCLJ0wGVwrM",
     likes: 7500,
     dislikes: 100,
     comments: [
@@ -127,7 +127,6 @@ export const videos = [
   }
 ];
 
-
 export const playlists = [
   {
     id: 1,
@@ -152,5 +151,13 @@ export const playlists = [
     thumbnail: videos[2].thumbnail,
     videoCount: 3,
     description: "Helpful programming tips and best practices"
+  },
+  {
+    id: 7,
+    name: "Liked Videos",
+    videos: [videos[1], videos[2], videos[3] ,videos[4], videos[5], videos[8]],
+    thumbnail: videos[2].thumbnail,
+    videoCount: 3,
+    description: "Videos you have liked"
   }
 ];

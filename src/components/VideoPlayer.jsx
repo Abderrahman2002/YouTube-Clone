@@ -1,11 +1,12 @@
 import { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // <-- New import
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { ThemeContext } from '../App';
 import { ThumbsUp, ThumbsDown, Share2, Save, MoreVertical } from 'lucide-react';
-import { videos } from '../data/videos';
-import Header from '../components/Header'; // Adjust the path as necessary
-import { Sidebar } from '../components/Sidebar'; // Adjust the path as necessary
+import { likeVideo, unlikeVideo } from '../store/videoSlice';
+import Header from '../components/Header';
+import { Sidebar } from '../components/Sidebar';
 
 VideoPlayer.propTypes = {
   video: PropTypes.shape({
@@ -22,32 +23,32 @@ VideoPlayer.propTypes = {
   }),
   onClose: PropTypes.func.isRequired,
   onVideoChange: PropTypes.func.isRequired,
-  onPlaylistClick: PropTypes.func.isRequired, // Add this prop
+  onPlaylistClick: PropTypes.func.isRequired,
 };
 
 export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPlaylistClick }) {
-  const { videoId } = useParams(); // retrieve videoId from route
+  const { videoId } = useParams();
   const { isDarkMode } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const videos = useSelector(state => state.videos.videos);
   const [video, setVideo] = useState(initialVideo);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const [likes, setLikes] = useState(initialVideo && initialVideo.likes ? initialVideo.likes : 0);
   const [dislikes, setDislikes] = useState(initialVideo && initialVideo.dislikes ? initialVideo.dislikes : 0);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar closed by default
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // If no video provided but videoId exists, load from videos array.
     if (!video && videoId) {
       const found = videos.find(v => v.id.toString() === videoId);
       if (found) {
         setVideo(found);
-        // Optionally update likes, dislikes etc.
         setLikes(found.likes);
         setDislikes(found.dislikes);
       }
     }
-  }, [video, videoId]);
+  }, [video, videoId, videos]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -64,7 +65,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
     };
   }, []);
 
-  // Instead of returning null, display a not-found message.
   if (!video) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -79,11 +79,14 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
     if (isLiked) {
       setLikes(likes - 1);
       setIsLiked(false);
+      dispatch(unlikeVideo({ id: video.id }));
     } else {
       setLikes(likes + 1);
       setIsLiked(true);
+      dispatch(likeVideo({ id: video.id }));
       if (isDisliked) {
         setDislikes(dislikes - 1);
+        setIsDisliked(false);
       }
     }
   };
@@ -98,6 +101,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
       if (isLiked) {
         setLikes(likes - 1);
         setIsLiked(false);
+        dispatch(unlikeVideo({ id: video.id }));
       }
     }
   };
@@ -116,7 +120,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
   return (
     <div className={`fixed inset-0 ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'} z-50 overflow-y-auto`}>
       <Header isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
-      <div className="flex mt-14"> {/* Add margin-top to avoid overlap */}
+      <div className="flex mt-14">
         <Sidebar isOpen={isSidebarOpen} onPlaylistClick={onPlaylistClick} currentPath="" />
         <div className="container mx-auto px-4 py-4">
           <button 
@@ -126,9 +130,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
             ✕
           </button>
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Main Content */}
             <div className="flex-1">
-              {/* Video Player */}
               <div className="aspect-video bg-black rounded-xl overflow-hidden">
                 <iframe
                   className="w-full h-full"
@@ -143,12 +145,10 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                   allowFullScreen
                 />
               </div>
-              {/* Video Info */}
               <div className="mt-4">
                 <h1 className="text-xl md:text-2xl font-bold">{video.title}</h1>
-                 Channel Info and Action Buttons 
                 <div className={`flex flex-col md:flex-row md:items-center justify-between mt-4 pb-4 border-b ${isDarkMode ? 'border-[#272727]' : 'border-gray-200'}`}>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
                       <img 
                         src={ video.channelAvatar === "profile.png" ? "/profile.png" : video.channelAvatar }
@@ -164,8 +164,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                       Subscribe
                     </button>
                   </div>
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-2 mt-4 md:mt-0">
+                  <div className="flex items-center gap-2 mt-4 md:mt-0 flex-wrap">
                     <div className={`flex ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-full`}>
                       <button 
                         onClick={handleLike}
@@ -198,13 +197,11 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                             <Save className="w-5 h-5" />
                             <span>Save to playlist</span>
                           </button>
-                          {/* Add more menu items here */}
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-                {/* Video Description */}
                 <div className={`mt-4 p-3 ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-xl`}>
                   <div className={`flex gap-4 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>
                     <span>{video.views}</span>
@@ -212,7 +209,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                   </div>
                   <p className="text-sm whitespace-pre-line">{video.description}</p>
                 </div>
-                {/* Comments Section */}
                 <div className={`mt-4 p-3 ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-xl`}>
                   <h2 className="text-lg font-semibold mb-2">Comments</h2>
                   {video.comments && video.comments.length > 0 ? (
@@ -228,7 +224,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                 </div>
               </div>
             </div>
-            {/* Related Videos */}
             <div className="lg:w-[350px] space-y-4">
               {relatedVideos.map(relatedVideo => (
                 <div 

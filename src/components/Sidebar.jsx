@@ -62,10 +62,13 @@ export function Sidebar({ isOpen, onPlaylistClick, currentPath }) {
             <Clock className="w-6 h-6" />
             {isOpen && <span>Watch Later</span>}
           </Link>
-          <Link to="/liked-videos" className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}>
+          <button 
+            onClick={() => onPlaylistClick(playlists.find(p => p.name === "Liked Videos"))}
+            className={`w-full flex items-center gap-4 px-3 py-2 hover:${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-lg`}
+          >
             <ThumbsUp className="w-6 h-6" />
             {isOpen && <span>Liked Videos</span>}
-          </Link>
+          </button>
         </div>
 
         {isOpen && (

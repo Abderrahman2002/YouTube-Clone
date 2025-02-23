@@ -58,6 +58,9 @@ function AppContent() {
     navigate(`/playlist/${playlist.id}`);
   };
 
+  console.log('Videos:', videos);
+  console.log('Current Playlist:', currentPlaylist);
+
   return (
     <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
       <div className={`min-h-screen ${isDarkMode ? 'bg-[#0f0f0f] text-white' : 'bg-white text-black'}`}>
