@@ -13,7 +13,7 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen }) => {
           <Menu className="w-6 h-6" />
         </button>
         <div className="flex items-center gap-1">
-          <img src="/ytb.png" alt="YouTube" className="w-8 h-8" /> {/* Adjust width and height */}
+          <img src="/yyy.png" alt="YouTube" className="w-8 h-8" /> {/* Adjust width and height */}
           <span className="text-xl font-semibold">YouTube</span>
         </div>
       </div>

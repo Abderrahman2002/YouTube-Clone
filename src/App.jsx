@@ -5,7 +5,6 @@ import { Sidebar } from './components/Sidebar';
 import { VideoGrid } from './components/VideoGrid';
 import { VideoPlayer } from './components/VideoPlayer';
 import { PlaylistView } from './components/PlaylistView';
-import { VideoForm } from './components/VideoForm';
 import { videos as initialVideos } from './data/videos';
 import { Provider } from 'react-redux';
 import { store } from './store';
@@ -40,7 +39,6 @@ function AppContent() {
     navigate(`/watch/${video.id}`);
   };
 
-  // Callback for VideoForm save (create or update)
   const handleSaveVideo = (videoData) => {
     setVideos(prev => {
       const exists = prev.find(v => v.id === videoData.id);
@@ -76,6 +74,7 @@ function AppContent() {
           />
           <div className="w-full">
             <div className="hidden">{videos.length} videos loaded</div> {/* Use videos state */}
+            <button onClick={() => handleSaveVideo({ title: 'New Video', description: 'Description' })}>Save Video</button>
             <Routes>
               <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} />
               <Route 
@@ -104,14 +103,6 @@ function AppContent() {
                     onPlaylistClick={handlePlaylistClick}
                   />
                 } 
-              />
-              <Route 
-                path="/admin/videos" 
-                element={<VideoForm onSave={handleSaveVideo} />} 
-              />
-              <Route 
-                path="/admin/videos/:videoId" 
-                element={<VideoForm onSave={handleSaveVideo} />} 
               />
             </Routes>
           </div>

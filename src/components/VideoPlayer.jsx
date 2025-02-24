@@ -31,6 +31,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
   const { isDarkMode } = useContext(ThemeContext);
   const dispatch = useDispatch();
   const videos = useSelector(state => state.videos.videos);
+  // const playlists = useSelector(state => state.videos.playlists);
   const [video, setVideo] = useState(initialVideo);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
@@ -117,6 +118,11 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
     window.scrollTo(0, 0);
   };
 
+  const getRandomAvatar = () => {
+    const randomIndex = Math.floor(Math.random() * videos.length);
+    return videos[randomIndex].channelAvatar;
+  };
+
   return (
     <div className={`fixed inset-0 ${isDarkMode ? 'bg-[#0f0f0f]' : 'bg-white'} z-50 overflow-y-auto`}>
       <Header isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
@@ -147,6 +153,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
               </div>
               <div className="mt-4">
                 <h1 className="text-xl md:text-2xl font-bold">{video.title}</h1>
+                <p className="text-xl md:text-2xl ">{video.description}</p>
                 <div className={`flex flex-col md:flex-row md:items-center justify-between mt-4 pb-4 border-b ${isDarkMode ? 'border-[#272727]' : 'border-gray-200'}`}>
                   <div className="flex items-center gap-3 flex-wrap">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
@@ -213,9 +220,18 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                   <h2 className="text-lg font-semibold mb-2">Comments</h2>
                   {video.comments && video.comments.length > 0 ? (
                     video.comments.map((comment, index) => (
-                      <div key={index} className={`mb-2 p-2 ${isDarkMode ? 'bg-[#1f1f1f]' : 'bg-white'} rounded-lg`}>
-                        <p className="font-medium">{comment.user || 'Anonymous'}</p>
-                        <p className="text-sm">{comment.text || ''}</p>
+                      <div key={index} className={`mb-2 p-2 ${isDarkMode ? 'bg-[#1f1f1f]' : 'bg-white'} rounded-lg flex items-start gap-3`}>
+                        <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                          <img 
+                            src={getRandomAvatar()}
+                            alt={comment.user || 'Anonymous'}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-medium">{comment.user || 'Anonymous'}</p>
+                          <p className="text-sm">{comment.text || ''}</p>
+                        </div>
                       </div>
                     ))
                   ) : (
