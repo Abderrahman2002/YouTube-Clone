@@ -1,28 +1,31 @@
-import { useState, createContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Header from './components/Header';
-import { Sidebar } from './components/Sidebar';
-import { VideoGrid } from './components/VideoGrid';
-import { VideoPlayer } from './components/VideoPlayer';
-import { PlaylistView } from './components/PlaylistView';
-import { videos as initialVideos } from './data/videos';
-import { Provider } from 'react-redux';
-import { store } from './store';
+import { useState, createContext, useEffect } from 'react'; // Importation des hooks useState, createContext et useEffect de React
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'; // Importation des composants et hooks de React Router
+import Header from './components/Header'; // Importation du composant Header
+import { Sidebar } from './components/Sidebar'; // Importation du composant Sidebar
+import { VideoGrid } from './components/VideoGrid'; // Importation du composant VideoGrid
+import { VideoPlayer } from './components/VideoPlayer'; // Importation du composant VideoPlayer
+import { PlaylistView } from './components/PlaylistView'; // Importation du composant PlaylistView
+import { videos as initialVideos } from './data/videos'; // Importation des vidéos initiales
+import { Provider } from 'react-redux'; // Importation du composant Provider de React Redux
+import { store } from './store'; // Importation du store Redux
 
+// Création du contexte du thème
 export const ThemeContext = createContext({
   isDarkMode: true,
   setIsDarkMode: () => {},
 });
 
+// Définition du composant AppContent
 function AppContent() {
-  const [videos, setVideos] = useState(initialVideos); // make videos editable
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [selectedVideo, setSelectedVideo] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [currentPlaylist, setCurrentPlaylist] = useState(null);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [videos, setVideos] = useState(initialVideos); // État local pour les vidéos
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // État local pour savoir si la barre latérale est ouverte
+  const [selectedVideo, setSelectedVideo] = useState(null); // État local pour la vidéo sélectionnée
+  const [isDarkMode, setIsDarkMode] = useState(true); // État local pour le mode sombre
+  const [currentPlaylist, setCurrentPlaylist] = useState(null); // État local pour la playlist actuelle
+  const navigate = useNavigate(); // Hook pour naviguer entre les routes
+  const location = useLocation(); // Hook pour obtenir la localisation actuelle
 
+  // Effet pour gérer la redimension de la fenêtre
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -34,23 +37,26 @@ function AppContent() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Fonction pour gérer le clic sur une vidéo
   const handleVideoClick = (video) => {
     setSelectedVideo(video);
     navigate(`/watch/${video.id}`);
   };
 
+  // Fonction pour sauvegarder une vidéo (création ou mise à jour)
   const handleSaveVideo = (videoData) => {
     setVideos(prev => {
       const exists = prev.find(v => v.id === videoData.id);
       if (exists) {
         return prev.map(v => (v.id === videoData.id ? videoData : v));
       } else {
-        // Assign a simple id if new video
+        // Assigner un ID simple si nouvelle vidéo
         return [...prev, { ...videoData, id: (prev.length + 1).toString() }];
       }
     });
   };
 
+  // Fonction pour gérer le clic sur une playlist
   const handlePlaylistClick = (playlist) => {
     setCurrentPlaylist(playlist);
     navigate(`/playlist/${playlist.id}`);
@@ -73,7 +79,7 @@ function AppContent() {
             currentPath={location.pathname}
           />
           <div className="w-full">
-            <div className="hidden">{videos.length} videos loaded</div> {/* Use videos state */}
+            <div className="hidden">{videos.length} videos loaded</div> {/* Utilisation de l'état des vidéos */}
             <button onClick={() => handleSaveVideo({ title: 'New Video', description: 'Description' })}>Save Video</button>
             <Routes>
               <Route path="/" element={<VideoGrid isSidebarOpen={isSidebarOpen} onVideoClick={handleVideoClick} />} />
@@ -112,6 +118,7 @@ function AppContent() {
   );
 }
 
+// Définition du composant App
 function App() {
   return (
     <Provider store={store}>

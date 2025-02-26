@@ -4,7 +4,7 @@ export const videos = [
     thumbnail: "https://img.youtube.com/vi/GkJ0mmj5xuU/maxresdefault.jpg",
     title: "Soutenance de Projet de Synthèse Développement Digital",
     channel: "SAID GAHI",
-    channelAvatar: "profile.png",
+    channelAvatar: "/profile.png",
     views: "120K views",
     timestamp: "2 days ago",
     duration: "15:30",
@@ -152,12 +152,5 @@ export const playlists = [
     videoCount: 3,
     description: "Helpful programming tips and best practices"
   },
-  {
-    id: 7,
-    name: "Liked Videos",
-    videos: [videos[1], videos[2], videos[3] ,videos[4], videos[5], videos[8]],
-    thumbnail: videos[2].thumbnail,
-    videoCount: 3,
-    description: "Videos you have liked"
-  }
+
 ];

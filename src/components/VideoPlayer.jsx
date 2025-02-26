@@ -1,13 +1,14 @@
-import { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { ThemeContext } from '../App';
-import { ThumbsUp, ThumbsDown, Share2, Save, MoreVertical } from 'lucide-react';
-import { likeVideo, unlikeVideo } from '../store/videoSlice';
-import Header from '../components/Header';
-import { Sidebar } from '../components/Sidebar';
+import { useState, useContext, useEffect } from 'react'; // Importation des hooks useState, useContext et useEffect de React
+import { useParams } from 'react-router-dom'; // Importation du hook useParams de React Router
+import PropTypes from 'prop-types'; // Importation de PropTypes pour la validation des types de props
+import { useDispatch, useSelector } from 'react-redux'; // Importation des hooks useDispatch et useSelector de Redux
+import { ThemeContext } from '../App'; // Importation du contexte du thème
+import { ThumbsUp, ThumbsDown, Share2, Save, MoreVertical } from 'lucide-react'; // Importation des icônes de lucide-react
+import { likeVideo, unlikeVideo } from '../store/videoSlice'; // Importation des actions likeVideo et unlikeVideo de videoSlice
+import Header from '../components/Header'; // Importation du composant Header
+import { Sidebar } from '../components/Sidebar'; // Importation du composant Sidebar
 
+// Définition des propTypes pour le composant VideoPlayer
 VideoPlayer.propTypes = {
   video: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
@@ -26,20 +27,22 @@ VideoPlayer.propTypes = {
   onPlaylistClick: PropTypes.func.isRequired,
 };
 
+// Définition du composant VideoPlayer
 export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPlaylistClick }) {
-  const { videoId } = useParams();
-  const { isDarkMode } = useContext(ThemeContext);
-  const dispatch = useDispatch();
-  const videos = useSelector(state => state.videos.videos);
+  const { videoId } = useParams(); // Utilisation du hook useParams pour obtenir l'ID de la vidéo depuis l'URL
+  const { isDarkMode } = useContext(ThemeContext); // Utilisation du contexte du thème pour obtenir isDarkMode
+  const dispatch = useDispatch(); // Utilisation du hook useDispatch pour dispatcher des actions Redux
+  const videos = useSelector(state => state.videos.videos); // Accès aux vidéos depuis l'état Redux
   // const playlists = useSelector(state => state.videos.playlists);
-  const [video, setVideo] = useState(initialVideo);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisliked, setIsDisliked] = useState(false);
-  const [showMoreMenu, setShowMoreMenu] = useState(false);
-  const [likes, setLikes] = useState(initialVideo && initialVideo.likes ? initialVideo.likes : 0);
-  const [dislikes, setDislikes] = useState(initialVideo && initialVideo.dislikes ? initialVideo.dislikes : 0);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [video, setVideo] = useState(initialVideo); // État local pour la vidéo actuelle
+  const [isLiked, setIsLiked] = useState(false); // État local pour savoir si la vidéo est aimée
+  const [isDisliked, setIsDisliked] = useState(false); // État local pour savoir si la vidéo est non aimée
+  const [showMoreMenu, setShowMoreMenu] = useState(false); // État local pour afficher ou non le menu "plus"
+  const [likes, setLikes] = useState(initialVideo && initialVideo.likes ? initialVideo.likes : 0); // État local pour le nombre de likes
+  const [dislikes, setDislikes] = useState(initialVideo && initialVideo.dislikes ? initialVideo.dislikes : 0); // État local pour le nombre de dislikes
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // État local pour savoir si la barre latérale est ouverte
 
+  // Effet pour charger la vidéo en fonction de l'ID de la vidéo
   useEffect(() => {
     if (!video && videoId) {
       const found = videos.find(v => v.id.toString() === videoId);
@@ -51,6 +54,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
     }
   }, [video, videoId, videos]);
 
+  // Effet pour gérer la redimension de la fenêtre
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -74,7 +78,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
     );
   }
 
-  const relatedVideos = videos.filter(v => v.id !== video.id).slice(0, 5);
+  const relatedVideos = videos.filter(v => v.id !== video.id).slice(0, 5); // Filtrer les vidéos associées
 
   const handleLike = () => {
     if (isLiked) {
@@ -133,7 +137,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
             onClick={onClose}
             className={`absolute top-4 right-4 ${isDarkMode ? 'text-white hover:text-gray-300' : 'text-black hover:text-gray-600'} md:hidden`}
           >
-            ✕
           </button>
           <div className="flex flex-col lg:flex-row gap-6">
             <div className="flex-1">
@@ -145,7 +148,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                       ? video.videoUrl.replace("youtu.be/", "www.youtube.com/embed/")
                       : video.videoUrl?.replace(/(?:\?v=|&v=)/, "embed/")
                   }
-                  title={video.title || "YouTube Video"}
+                  title={video.title }
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -158,7 +161,7 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                   <div className="flex items-center gap-3 flex-wrap">
                     <div className="w-10 h-10 rounded-full overflow-hidden">
                       <img 
-                        src={ video.channelAvatar === "profile.png" ? "/profile.png" : video.channelAvatar }
+                        src={ video.channelAvatar}
                         alt={video.channel}
                         className="w-full h-full object-cover"
                       />
@@ -210,10 +213,6 @@ export function VideoPlayer({ video: initialVideo, onClose, onVideoChange, onPla
                   </div>
                 </div>
                 <div className={`mt-4 p-3 ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-xl`}>
-                  <div className={`flex gap-4 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} mb-2`}>
-                    <span>{video.views}</span>
-                    <span>{video.timestamp}</span>
-                  </div>
                   <p className="text-sm whitespace-pre-line">{video.description}</p>
                 </div>
                 <div className={`mt-4 p-3 ${isDarkMode ? 'bg-[#272727]' : 'bg-gray-100'} rounded-xl`}>
